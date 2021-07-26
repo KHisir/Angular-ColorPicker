@@ -1,0 +1,39 @@
+<button type="button" [style.background-color]="color" [style.color]="color === '#000000' ? '#fff' : ''"
+  (click)="openPicker()">{{color}}</button>
+
+<link href="https://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet">
+
+<div id="kh-colorpicker" class="backdrop" *ngIf="pickerIsEnabled === true">
+  <div id="wrapper">
+    <div id="container">
+      <div id="header" [style.background-color]="currentColor"><span
+        [style.color]="currentColor === '#000000' ? '#fff' : ''">{{currentColor}}</span></div>
+    
+      <div id="content">
+        <!-- master -->
+        <div id="master-color-container">
+          <div class="color-item" *ngFor="let item of colorPalettes" (click)="colorPaletteOnclick(item)"
+            [style.background-color]="item.DefaultColor" [class.active]="currentColorPalette.DefaultColor === item.DefaultColor"
+            [class.bordered]="item.DefaultColor === '#FFFFFF'">
+            <span *ngIf="currentColorPalette.DefaultColor === item.DefaultColor">&#10003;</span>
+          </div>
+        </div>
+
+        <!-- detail -->
+        <div id="detail-color-container" [@productsIntro]="animationState">
+          <div class="color-item" *ngFor="let color of currentColorPalette.DetailColors"
+            (click)="currentColor = color" [style.background-color]="color"
+            [class.active]="currentColor === color">
+            <span *ngIf="currentColor === color">&#10003;</span>
+          </div>
+          <small *ngIf="currentColorPalette.Type === ColorPaletteType.None">Does not contain detailed colors!</small>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <button class="secondary-button" type="button" (click)="close()">Close</button>
+      <button class="primary-button" type="button" (click)="apply()">Apply</button>
+    </div>
+  </div>
+</div>
